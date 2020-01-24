@@ -39,3 +39,13 @@ multiThread
  }
  </code>
 </pre>
+
+Runnable은 작업 내용을 가지고 있는 객체이지 실제 스레드는 아니다.
+보통 Thread 생성자를 호출할 때 Runnable 익명 객체를 매개값으로 사용 할 수 있다.
+<pre><code>
+Thread thread = new Thread(new Runnable(){
+  public void run(){
+      스레드가 실행할 코드
+     }
+  })
+</code></pre>
