@@ -49,3 +49,8 @@ Thread thread = new Thread(new Runnable(){
      }
   })
 </code></pre>
+
+작업 스레드는 생성되는 즉시 실행되는 것이 아니고, start() 메소드를 호출해야 실행된다.
+<pre><code>
+thread.start();
+</code></pre>
