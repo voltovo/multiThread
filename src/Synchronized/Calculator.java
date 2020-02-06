@@ -4,7 +4,7 @@ public class Calculator {
 	private int memory;
 	
 	public int getMemory() {
-		return this.memory;
+		return memory;
 	}
 	
 	//계산기 메모리 값을 저장하는 메소드
@@ -14,7 +14,7 @@ public class Calculator {
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
-			System.out.println(Thread.currentThread().getName() + " : " + this.memory);
 		}
+		System.out.println(Thread.currentThread().getName() + " : " + this.memory);
 	}
 }
