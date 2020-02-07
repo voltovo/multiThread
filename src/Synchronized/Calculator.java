@@ -8,7 +8,8 @@ public class Calculator {
 	}
 	
 	//계산기 메모리 값을 저장하는 메소드
-	public void setMemory(int memory) {
+	//synchronized로 메소드 전체 동기화
+	public synchronized void setMemory(int memory) {
 		//매개 값을 memory에 저장
 		this.memory = memory;
 		try {
