@@ -55,14 +55,31 @@ Thread thread = new Thread(new Runnable(){
 thread.start();
 </code></pre>
 
-#### 동기화 블록
-###### 멀티스레드 사용시 스레드들이 객체를 공유해서 작업할 경우 주의점
+### 동기화 블록
+#### 멀티스레드 사용시 스레드들이 객체를 공유해서 작업할 경우 주의점
 객체를 공유해서 작업할 경우 스레드A가 사용하던 객체를 스레드B에 의해 상태가 변경될 수 있다.
 ![Alt Text](img/notSynchronized.jpg)<br>
 그래서 스레드가 사용중인 객체를 다른 스레드가 변경할 수 없도록 해야한다.
 어떻게? 잠금을 걸어서 다른 스레드가 사용할 수 없도록 해야 한다.
 
-###### 동기화(Synchronized)
+#### 동기화(Synchronized)
 임계영역(critical section) : 멀티 스레드 프로그램에서 단 하나의 스레드만 실행할 수 있는 코드 영역
 자바는 동기화(Synchronized)로 임계영역을 지정한다. 동기화를 하면 객체에 잠금을 걸어 다른 스레드가 임계 영역 코드를 실행하지 못하도록 한다.<br>
 메소드 전체 또는 블록을 만들어서 일부분만 지정할 수도 있다.
+
+### 스레드 상태 제어
+#### 스레드를 일시정지 또는 종료 시키는 것들을 상태 제어라고 한다
+메소드 종류 <br>
+|메소드|설명|
+|------------|:-------|
+|interrupt()|일시 정지 상태의 스레드에서 InterruptedException 예외를 발생시켜, 예외처리 코드(catch)에서 실행 대기 상태로 가거나 종료 상태로 갈 수 있도록 한다.|
+|notify()<br>notifyAll()|동기화 블록 내에서 wait()메소드에 의해 일시 정지 상태에 있는 스레드를 실행 대기 상태로 만든다.|
+|resume()|suspent() 메소드에 의해 일시 정지 상태에 있느느 스레드를 실행 대기 상태로 만든다. -Deprecated (대신 notify(), notifyAll() 사용)|
+|sleep(long millis)<br>sleep(long millis, int nanos)|주어진 시간 동안 스레드를 일시 정지 상태로 만든다. 주어진 시간이 지나면 자동적으로 실행 대기 상태가 된다.|
+|join()<br>join(long millis)<br>join(long millis,int nanos)|join() 메소드를 호출한 스레드는 일시 정지 상태가 된다. 실행 대기 상태로 가려면, join() 메소드를 멤버로 가지는 스레드가 종료되거나, 매개값으로 주어진 시간이 지나야 한다.|
+|wait()<br>wait(long millis)<br>wait(long mills,int nanos)|동기화(synchronized) 블록 내에서 스레드를 일시 정지 상태로 만든다. 매개값으로 주어진 시간이 지나면 지동적으로 실행 대기 상태가 된다. 시간이 주어지지 않으면 notify(), notifyAll() 메소드에 의해 실행 대기 상태로 갈 수 있다.|
+|suspend()|스레드를 일시 정지 상태로 만든다. resume()메소드를 호출하면 다시 실행대기 상태가 된다. -Deprecated(대신 wait() 사용)|
+|yield()|실행 중에 우선순위가 동일한 다른 스레드에게 실행을 양보하고 실행 대기 상태가 된다.|
+|stop()|스레드를 즉시 종료시킨다. -Deprecated|
+**wait,notify,notifyAll 은 Object 클래스 메소드 그 외는 모두 Thread 클래스듸 메소드**
+
