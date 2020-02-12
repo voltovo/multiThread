@@ -81,5 +81,7 @@ thread.start();
 |suspend()|스레드를 일시 정지 상태로 만든다. resume()메소드를 호출하면 다시 실행대기 상태가 된다. -Deprecated(대신 wait() 사용)|
 |yield()|실행 중에 우선순위가 동일한 다른 스레드에게 실행을 양보하고 실행 대기 상태가 된다.|
 |stop()|스레드를 즉시 종료시킨다. -Deprecated|
+<br>
+
 **wait,notify,notifyAll 은 Object 클래스 메소드 그 외는 모두 Thread 클래스듸 메소드**
 
