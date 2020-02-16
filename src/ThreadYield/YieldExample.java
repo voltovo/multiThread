@@ -1,10 +1,11 @@
-import Preparation.ThreadA;
-import Preparation.ThreadB;
+package ThreadYield;
+
+
 
 public class YieldExample{
     public static void main(String[] args){
     ThreadA threadA = new ThreadA();
-    TrheadB threadB = new ThreadB();
+    ThreadB threadB = new ThreadB();
     
     //ThreadA, ThreadB 모두 실행
     threadA.start();
@@ -21,15 +22,15 @@ public class YieldExample{
         Thread.sleep(3000);
     } catch (InterruptedException e) {
         //TrheadA, ThreadB 모두 실행
-        threadB.work = true;
+        threadA.work = true;
     }
 
     try {
         Thread.sleep(3000);
     } catch (InterruptedException e) {
-        //ThreadA, ThreadB 모두 종료
-        threadA.stop = true;
-        threadB.stop = true;
     }
+     //ThreadA, ThreadB 모두 종료
+     threadA.stop = true;
+     threadB.stop = true;
     }
 }
