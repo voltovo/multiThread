@@ -51,7 +51,7 @@ ExecutorService threadPool = new ThreadPoolExecutor(
 |List<Runnable>|shutdownNow()|현재 작업 처리 중인 스레드를 interrupt해서 작업 중지를 시도하고 스레드풀을 종료시킨다. 리턴값은 작업 큐에 있는 미처리된 작업(Runnable)의 목록이다.|
 |boolean|awaitTermination(long timeout,TimeUnit unit)|shutdown()메소드 호출 이후, 모든 작업 처리를 timeout 시간 내에 완료하면 true를 리턴하고, 완료하지 못하면 작업 처리중인 스레드를 interrupt하고 false를 리턴하다.|
 
-### 작업생성
+### 작업 생성
 Runnable 또는 Callable 클래스로 표현한다.<br>
 둘의 차이점은 완료후 리턴 값의 유뮤이다.
 ##### Runnable 구현 클래스
@@ -73,4 +73,16 @@ Callable<T> task = new Callable<T>(){
     }
 }
 </pre>
+
+### 작업 처리 요청
+|리턴 타입|메소드명(매개 변수)|설명|
+|:---:|:---:|:---|
+|void|execute(Runnable command)|-Runnable을 작업 큐에 저장<br>-작업 처리 결과를 받지 못함|
+|Future<?><br>Future<V><br>Funture<v>|submit(Runnable tas)<br>submit(Runnable task,V result)<br>submit(Callable<V>task)|-Runnable 또는 Callable을 작업 큐에 저장<br>-리턴된 Future를 통해 작업 처리 결과를 얻을 수 있음|
+##### execute()
+작업 처리 도중 예외가 발생하면 스레드가 종료되고 해당 스레드는 스레드풀에서 제거된다. <br>스레드풀은 다른 작업 처리를 위해 새로운 스레드를 생성한다.
+##### submit()
+작업 처리 도중 예외가 발생해도 스레드는 종료되지 않고 다음 작업을 위해 재사용.<br>
+가급적이면 스레드의 생성 오버헤더를 줄이기 위해서 submit() 사용하는 것이 좋다.
+
 
