@@ -78,7 +78,7 @@ Callable<T> task = new Callable<T>(){
 |리턴 타입|메소드명(매개 변수)|설명|
 |:---:|:---:|:---|
 |void|execute(Runnable command)|-Runnable을 작업 큐에 저장<br>-작업 처리 결과를 받지 못함|
-|Future<?><br>Future<V><br>Funture<v>|submit(Runnable tas)<br>submit(Runnable task,V result)<br>submit(Callable<V>task)|-Runnable 또는 Callable을 작업 큐에 저장<br>-리턴된 Future를 통해 작업 처리 결과를 얻을 수 있음|
+|Future<?><br> Future< V > <br>Future< V > |submit(Runnable tas)<br>submit(Runnable task,V result)<br>submit(Callable<V>task)|-Runnable 또는 Callable을 작업 큐에 저장<br>-리턴된 Future를 통해 작업 처리 결과를 얻을 수 있음|
 ##### execute()
 작업 처리 도중 예외가 발생하면 스레드가 종료되고 해당 스레드는 스레드풀에서 제거된다. <br>스레드풀은 다른 작업 처리를 위해 새로운 스레드를 생성한다.
 ##### submit()
