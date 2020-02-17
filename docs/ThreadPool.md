@@ -42,3 +42,35 @@ ExecutorService threadPool = new ThreadPoolExecutor(
     new SynchronousQueue<Runnable>()   //작업 큐
 );
 </pre>
+
+### 스레드풀 종료
+스레드풀의 스레드는 데몬 스레드가 아니기 때문에 main 스레드가 종료되더라도 작업을 처리하기 위해 계속 실행 상태로 남아있다. 스레드풀을 종료시키는 메소드
+|리턴타입|메소드명(매개 변수)|설명|
+|:---:|:---:|:---|
+|void|shutdown()|현재 처리 중인 작업뿐만 아니라 작업 큐에 대기하고 있는 모든 작업을 처리한 뒤에 스레드풀을 종료시킨다|
+|List<Runnable>|shutdownNow()|현재 작업 처리 중인 스레드를 interrupt해서 작업 중지를 시도하고 스레드풀을 종료시킨다. 리턴값은 작업 큐에 있는 미처리된 작업(Runnable)의 목록이다.|
+|boolean|awaitTermination(long timeout,TimeUnit unit)|shutdown()메소드 호출 이후, 모든 작업 처리를 timeout 시간 내에 완료하면 true를 리턴하고, 완료하지 못하면 작업 처리중인 스레드를 interrupt하고 false를 리턴하다.|
+
+### 작업생성
+Runnable 또는 Callable 클래스로 표현한다.<br>
+둘의 차이점은 완료후 리턴 값의 유뮤이다.
+##### Runnable 구현 클래스
+<pre>
+Runnable task = new Runnable(){
+    @Override
+    public void run(){
+        //스레드가 처리할 작업 내용
+    }
+}
+</pre>
+##### Callable 구현 클래스
+<pre>
+Callable<T> task = new Callable<T>(){
+    @Override
+    public T Call()throws Exception{
+        //스레드가 처리할 작업 내용
+        return T;
+    }
+}
+</pre>
+
