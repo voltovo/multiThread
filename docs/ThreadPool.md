@@ -31,3 +31,14 @@ ExecutorService executorService = Executors.newFixedThreadPool{
     Runtime.getRuntime().availableProcessors()
 };
 </pre>
+##### ThreadPoolExecutor
+코어 스레드 개수와 최대 스레드 개수를 설정할 수 있다.
+<pre>
+ExecutorService threadPool = new ThreadPoolExecutor(
+    3,      //코어 스레드 개수
+    100,   //최대 스레드 개수
+    120L,  //놀고 있는 시간
+    TimeUnit.SECONDS,   //놀고 있는 시간 단위
+    new SynchronousQueue<Runnable>()   //작업 큐
+);
+</pre>
