@@ -85,3 +85,7 @@ thread.start();
 
 **wait,notify,notifyAll 은 Object 클래스 메소드 그 외는 모두 Thread 클래스듸 메소드**
 
+-------------------------------------------
+#### ThreadPool 이란
+Link : [ThreadPool](/docs/ThreadPool.md)
+
