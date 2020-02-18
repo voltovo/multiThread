@@ -85,4 +85,22 @@ Callable<T> task = new Callable<T>(){
 작업 처리 도중 예외가 발생해도 스레드는 종료되지 않고 다음 작업을 위해 재사용.<br>
 가급적이면 스레드의 생성 오버헤더를 줄이기 위해서 submit() 사용하는 것이 좋다.
 
+### 블로킹 방식의 작업 완료 통보
+ExecutorService의 submit() 메소드는 매개값으로 준 Runnable 또는 Callable 작업을 스레드 풀의 작업 큐에 저장하고 즉시 Future 객체를 리턴.<br>
+##### Future객체
+작업이 완료될 때까지 기다렸다가 (지연했다가 = 블로킹되었다) 최종 결과를 얻는데 사용. Future를 지연 완료(pending completion)객체라고 한다.
+|리턴타입|메소드명(매개 변수)|설명|
+|:---:|:---:|:---|
+|V|get()|작업이 완료될 떄까지 블로킹되었다가 처리 결과 V를 리턴|
+|V|get(long timeout,TimeUnit unit)|timeout 시간 전에 작업이 완료되면 결과 V를 리턴하지만, 작업이 완료되지 않으면 TimeoutException을 발생시킴|
+다음은 세 가지 submit()메소드별로 Future의 get()메소드가 리턴하는 값이 무엇인지 보여준다.
+|메소드|작업 처리 완료 후 리턴 타입|작업 처리 도중 예외 발생|
+|:---|:---:|:---:|
+|submit(Runnable task)|future.get()->null|future.get()->예외발생|
+|submit(Runnable task,Integer result)|future.get()->int 타입 값|future.get()->예외발생|
+|submit(Callable< String>task)|future.get()->String 타입값|future.get()->예외발생|
+##### 주의할 점
+스레드가 작업을 완료하기 전까지는 **get()메소드가 블로킹되므로 다른 코드를 실행할 수 없다.**<br>
+예를 들어, UI를 변경하고 이벤트를 처리하는 스레드가 get()메소드를 호출하면 작업이 완료될 떄까지 UI를 변경과 이벤트 처리를 할 수 없다. 그래서 **get()메소드를 호출하는 스레드는 새로운 스레드이거나 스레드풀의 또 다른 스레드가 되어야 한다.**
+
 
