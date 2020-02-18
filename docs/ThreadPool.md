@@ -93,7 +93,9 @@ ExecutorService의 submit() 메소드는 매개값으로 준 Runnable 또는 Cal
 |:---:|:---:|:---|
 |V|get()|작업이 완료될 떄까지 블로킹되었다가 처리 결과 V를 리턴|
 |V|get(long timeout,TimeUnit unit)|timeout 시간 전에 작업이 완료되면 결과 V를 리턴하지만, 작업이 완료되지 않으면 TimeoutException을 발생시킴|
+
 다음은 세 가지 submit()메소드별로 Future의 get()메소드가 리턴하는 값이 무엇인지 보여준다.
+
 |메소드|작업 처리 완료 후 리턴 타입|작업 처리 도중 예외 발생|
 |:---|:---:|:---:|
 |submit(Runnable task)|future.get()->null|future.get()->예외발생|
