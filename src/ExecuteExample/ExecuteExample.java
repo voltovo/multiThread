@@ -26,9 +26,12 @@ public class ExecuteExample {
                     int value = Integer.parseInt("삼");
                 }
             };
-            //작업 처리 요청
-            executorService.execute(runnable);
-            //executorService.submit(runnable);
+            //작업 처리 요청(작업 처리 도중 예외가 발생하면 해당 스레드 제거
+            //새 스레드가 계속 생성)
+            //executorService.execute(runnable);
+            //작업 처리 요청(작업 처리 도중 예외가 발생해도 스레드가 종료
+            //되지 않고 계속 재사용되어 다른 작업을 처리)
+            executorService.submit(runnable);
 
             Thread.sleep(10); //콘솔에 출력 시간을 주기 위해 0.01초 일시 정지 시킴
         }
