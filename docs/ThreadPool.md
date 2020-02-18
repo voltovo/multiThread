@@ -102,5 +102,31 @@ ExecutorService의 submit() 메소드는 매개값으로 준 Runnable 또는 Cal
 ##### 주의할 점
 스레드가 작업을 완료하기 전까지는 **get()메소드가 블로킹되므로 다른 코드를 실행할 수 없다.**<br>
 예를 들어, UI를 변경하고 이벤트를 처리하는 스레드가 get()메소드를 호출하면 작업이 완료될 떄까지 UI를 변경과 이벤트 처리를 할 수 없다. 그래서 **get()메소드를 호출하는 스레드는 새로운 스레드이거나 스레드풀의 또 다른 스레드가 되어야 한다.**
-
-
+##### Future객체의 다른 메소드
+|리턴타입|매소드명(매개 변수)|설명|
+|:---:|:---:|:---|
+|boolean|cancel(boolean mayInterruptIfRunning)|작업 처리가 진행중일 경우 취소|
+|boolean|isCancelled()|작업이 취소되었는지 여부|
+|boolean|isDone()|작업 처리가 완료되었는지 여부|
+### 리턴값이 없는 작업 완료 통보
+리턴값이 없는 작업일 경우는 Runnable 객체로 생성하면 된다.
+<pre>
+Runnable task = new Runnable(){
+    @Override
+    public void run(){
+        //스레드가 처리할 작업 내용
+    }
+};
+</pre>
+결과 값이 없는 작업 처리 요청은 submit(Runnable task) 메소드를 이용하면된다.
+결과 값이 없으므로 작업 처리 도중에 예외가 발생했는지 확인하기 위한 코드
+<pre>
+Future future = executorService.submit(task);
+try{
+    future.get();
+}catch(InterruptedException e){
+    //작업 처리 도중 스레드가 interrupt될 경우 실행할 코드
+}catch(ExecutionException e){
+    //작업 처리 도중 예외가 발생된 경우 실행할 코드
+}
+</pre>
