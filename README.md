@@ -88,5 +88,5 @@ thread.start();
 
 -------------------------------------------
 #### ThreadPool 이란
-Link : [ThreadPool](/docs/ThreadPool.md)
+Link : [ThreadPool](ThreadPool.md)
 
