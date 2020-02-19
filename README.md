@@ -75,7 +75,7 @@ thread.start();
 |------------|:-------|
 |interrupt()|일시 정지 상태의 스레드에서 InterruptedException 예외를 발생시켜, 예외처리 코드(catch)에서 실행 대기 상태로 가거나 종료 상태로 갈 수 있도록 한다.|
 |notify()<br>notifyAll()|동기화 블록 내에서 wait()메소드에 의해 일시 정지 상태에 있는 스레드를 실행 대기 상태로 만든다.|
-|resume()|suspent() 메소드에 의해 일시 정지 상태에 있느느 스레드를 실행 대기 상태로 만든다. -Deprecated (대신 notify(), notifyAll() 사용)|
+|resume()|suspend() 메소드에 의해 일시 정지 상태에 있느느 스레드를 실행 대기 상태로 만든다. -Deprecated (대신 notify(), notifyAll() 사용)|
 |sleep(long millis)<br>sleep(long millis, int nanos)|주어진 시간 동안 스레드를 일시 정지 상태로 만든다. 주어진 시간이 지나면 자동적으로 실행 대기 상태가 된다.|
 |join()<br>join(long millis)<br>join(long millis,int nanos)|join() 메소드를 호출한 스레드는 일시 정지 상태가 된다. 실행 대기 상태로 가려면, join() 메소드를 멤버로 가지는 스레드가 종료되거나, 매개값으로 주어진 시간이 지나야 한다.|
 |wait()<br>wait(long millis)<br>wait(long mills,int nanos)|동기화(synchronized) 블록 내에서 스레드를 일시 정지 상태로 만든다. 매개값으로 주어진 시간이 지나면 지동적으로 실행 대기 상태가 된다. 시간이 주어지지 않으면 notify(), notifyAll() 메소드에 의해 실행 대기 상태로 갈 수 있다.|
