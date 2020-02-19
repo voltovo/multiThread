@@ -160,3 +160,26 @@ try{
 }
 </pre>
 
+### 작업 처리 결과를 외부 객체에 저장
+상황에 따라서 스레드가 작업한 결과를 외부 객체에 저장해야 할 경우...<br>
+작업 처리를 완료한 수 외부 result 객체에 작업 결과를 저장하면, 애플리케이션이 result 객체를 사용해서 다른 작업을 진행 할 수 있다.
+![Alt Text](/multiThread/img/ThreadResult.jpg)<br>
+<pre>
+ExecutorService.submit(Runnable task, V result)
+</pre>
+V가 result 타입. Future.get()로 호출하면 스레드가 작업을 완료할 때까지 블로킹되었다가 작업을 완료하면 V 타입 객체를 리턴. submit()의 두번째 매개값으로 준 객체와 동일한데, **스레드 처리 결과가 내부에 저장**되어 있다는 것.<br>
+##### 주의할점
+결과를 저장하기 위해 외부 Result객체를 사용해야 하므로 생성자를 통해 Result객체를 주입해야한다.
+<pre>
+class Task implements Runnable{
+    Result result;
+    Task(Result result){
+        this.result = result;
+    }
+    @Override
+    public void run(){
+        //작업 코드
+        //처리 결과를 result 저장
+    }
+}
+</pre>
