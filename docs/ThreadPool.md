@@ -7,6 +7,7 @@ ThreadPool
 스레드를 제한된 개수만큼 정해 놓고 작업 큐(Queue)에 들어오는 작업들을 하나씩 스레드가 맡아 처리. 처리가 끝난 스레드는 다시 작업 큐에서 새로운 작업들을 하나씩 맡아서 처리.<br>
 **작업 처리 요청이 폭증되어도 스레드의 전체 개수가 늘어나지 않아서 애플리케이션 성능이 급격히 저하되지 않는다.**
 
+## 스레드풀 생성 및 종료
 ### 스레드풀 생성
 기본적으로 ExecutorService 인터페이스와 Executors 클래스로 생성<br>
 |메소드명(매개변수)|초기 스레드 수|코어 스레드 수|최대 스레드 수|
@@ -51,6 +52,7 @@ ExecutorService threadPool = new ThreadPoolExecutor(
 |List<Runnable>|shutdownNow()|현재 작업 처리 중인 스레드를 interrupt해서 작업 중지를 시도하고 스레드풀을 종료시킨다. 리턴값은 작업 큐에 있는 미처리된 작업(Runnable)의 목록이다.|
 |boolean|awaitTermination(long timeout,TimeUnit unit)|shutdown()메소드 호출 이후, 모든 작업 처리를 timeout 시간 내에 완료하면 true를 리턴하고, 완료하지 못하면 작업 처리중인 스레드를 interrupt하고 false를 리턴하다.|
 
+## 작업 생성과 처리 요청
 ### 작업 생성
 Runnable 또는 Callable 클래스로 표현한다.<br>
 둘의 차이점은 완료후 리턴 값의 유뮤이다.
@@ -85,7 +87,7 @@ Callable<T> task = new Callable<T>(){
 작업 처리 도중 예외가 발생해도 스레드는 종료되지 않고 다음 작업을 위해 재사용.<br>
 가급적이면 스레드의 생성 오버헤더를 줄이기 위해서 submit() 사용하는 것이 좋다.
 
-### 블로킹 방식의 작업 완료 통보
+## 블로킹 방식의 작업 완료 통보
 ExecutorService의 submit() 메소드는 매개값으로 준 Runnable 또는 Callable 작업을 스레드 풀의 작업 큐에 저장하고 즉시 Future 객체를 리턴.<br>
 ##### Future객체
 작업이 완료될 때까지 기다렸다가 (지연했다가 = 블로킹되었다) 최종 결과를 얻는데 사용. Future를 지연 완료(pending completion)객체라고 한다.
@@ -104,7 +106,7 @@ ExecutorService의 submit() 메소드는 매개값으로 준 Runnable 또는 Cal
 ##### 주의할 점
 스레드가 작업을 완료하기 전까지는 **get()메소드가 블로킹되므로 다른 코드를 실행할 수 없다.**<br>
 예를 들어, UI를 변경하고 이벤트를 처리하는 스레드가 get()메소드를 호출하면 작업이 완료될 떄까지 UI를 변경과 이벤트 처리를 할 수 없다. 그래서 **get()메소드를 호출하는 스레드는 새로운 스레드이거나 스레드풀의 또 다른 스레드가 되어야 한다.**
-##### Future객체의 다른 메소드
+###### Future객체의 다른 메소드
 |리턴타입|매소드명(매개 변수)|설명|
 |:---:|:---:|:---|
 |boolean|cancel(boolean mayInterruptIfRunning)|작업 처리가 진행중일 경우 취소|
@@ -132,3 +134,29 @@ try{
     //작업 처리 도중 예외가 발생된 경우 실행할 코드
 }
 </pre>
+
+### 리턴값이 있는 작업 완료 통보
+Callable을 생성하면 처리 결과를 얻을 수 있다.
+<pre>
+Callable< T> task = new Callable< T>(){
+    @Override
+    public T call()throws Exception{
+        //스레드가 처리할 작업 내용
+        return T;
+    }
+};
+</pre>
+
+Runnable 작업처럼 ExecutorService의 submit()메소들 호출
+<pre>
+Future< T> future = executorService.submit(task)
+
+try{
+    T result = future.get();
+}catch(InterruptedException e){
+    //작업 처리 도중 스레드가 interrupt 될 경우 실행할 코드
+}catch(ExecutionException e){
+    //작업 처리 도중 예외가 발생된 경우 실행할 코드
+}
+</pre>
+
