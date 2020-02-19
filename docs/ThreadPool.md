@@ -163,7 +163,7 @@ try{
 ### 작업 처리 결과를 외부 객체에 저장
 상황에 따라서 스레드가 작업한 결과를 외부 객체에 저장해야 할 경우...<br>
 작업 처리를 완료한 수 외부 result 객체에 작업 결과를 저장하면, 애플리케이션이 result 객체를 사용해서 다른 작업을 진행 할 수 있다.
-![Alt Text](multiThread/img/ThreadResult.jpg)<br>
+![Alt Text](img/ThreadResult.jpg)<br>
 <pre>
 ExecutorService.submit(Runnable task, V result)
 </pre>
