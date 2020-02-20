@@ -183,3 +183,20 @@ class Task implements Runnable{
     }
 }
 </pre>
+
+### 작업 완료 순으로 통보
+여러 개의 작업들이 순차적으로 처리될 필요성이 없고, 처리 결과도 순차적으로 이용할 필요가 없다면 작업 처리가 완료된 것부터 결과를 얻어 이용하면 된다. CompletionService를 이용해 스레드풀에서 작업 처리가 완료된 것만 통보받는다.<br>
+|리턴타입|메소드명(매개 변수)|설명|
+|:---:|:---:|:---|
+|Funture< V>|poll()|완료된 작업의 Future를 자져옴.<br>완료된 작업이 없다면 즉시 null 리턴함|
+|Future< V>|poll(long timeout,TimeUnit unit)|완료된 작업의 Future를 가져옴.<br>완료된 작업이 없다면 timeOut까지 블로킹|
+|Future< V>|take()|완료된 작업의 Future를 자져옴.<br>완료된 작업이 없다면 있을 때까지 블로킹|
+|Future< V>|submit(Callable< V> task)|스레드풀에 Callable 작업 처리 요청|
+|Future< V>|submit(Runnable task,V result)|스레드풀에 Runnable 작업 처리 요청|
+
+poll()과 take()메소드를 이용해서 처리 완료된 작업의 Future를 얻으려면 CompletionService의 submit()메소드로 작업 처리 요청을 해야한다.
+<pre>
+completionService.submit(Callable< V> task);
+completionService.submit(Runnable task, V result);
+</pre>
+**리턴된 완료 작업은 먼저 처리 요청한 작업이 아닐 수도 있다는 것을 기억해야한다**
