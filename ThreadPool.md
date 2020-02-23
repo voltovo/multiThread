@@ -200,3 +200,23 @@ completionService.submit(Callable< V> task);
 completionService.submit(Runnable task, V result);
 </pre>
 **리턴된 완료 작업은 먼저 처리 요청한 작업이 아닐 수도 있다는 것을 기억해야한다**
+
+## 콜백 방식의 작업 완료 통보
+콜백이란? <br>
+애플리케이션이 스레드에게 작업 처리를 요청한 후, 스레드가 작업을 완료하면 특정 메소드를 자동 실행하는 기법<br>
+![Alt Text](./img/callback.jpg)<br>
+Runnable 구현 클래스를 작성해서 콜백 기능 구현 가능. CompletionHandler를 사용해서 비동기 통신으로 콜백 객체를 만들 때 사용한다.
+<pre>
+CompletionHandler< V,A> callback = new CompletionHandler< V,A>(){
+    @Override
+    public void completed(V result, A attachment){
+
+    }
+    @Override
+    public void failed(Throwable exc, A attachment){
+
+    }
+}
+</pre>
+completed()는 작업을 정상 처리 완료했을 때 호출<br>
+failed()는 작업 처리 도중 예외가 발생했을 때 호출
